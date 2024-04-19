@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="index.css">
+    <title>Streamyard Clone</title>
+</head>
+
+<body>
+    <div>
+        <div>
+            <video id="stream" muted autoplay width="400px" height="250px" style="border: 1px solid black;"></video>
+        </div>
+        <div>
+            <button id="webcam">Webcam</button>
+            <button id="screen">ScreenShare</button>
+            <button id="go-live">Go Live</button>
+        </div>
+    </div>
+</body>
+<script src="https://cdn.socket.io/4.7.5/socket.io.min.js"
+    integrity="sha384-2huaZvOR9iDzHqslqwpR87isEmrfxqyWOF7hr7BY6KG0+hVKLoEXMPUJw3ynWuhO"
+    crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/video-stream-merger@4.0.1/dist/video-stream-merger.js"></script>
+<script src="index.js"></script>
+
+</html>
