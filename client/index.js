@@ -16,11 +16,11 @@ liveBtn.addEventListener("click", () => {
 })
 
 const state = { webcam: null, screen: null, stream: null }
-const socket = io("http://localhost:3000")
 
 
 async function getWebcamStream() {
     if (state.webcam !== null) {
+        state.webcam.getTracks().forEach(track => track.stop());
         state.webcam = null
         if (state.screen !== null) {
             video.srcObject = state.screen
@@ -43,6 +43,7 @@ async function getWebcamStream() {
 
 async function getScreenStream() {
     if (state.screen !== null) {
+        state.screen.getTracks().forEach(track => track.stop());
         state.screen = null
         if (state.webcam !== null) {
             video.srcObject = state.webcam
@@ -53,8 +54,9 @@ async function getScreenStream() {
         }
         return
     }
-    const screenStream = await navigator.mediaDevices.getDisplayMedia({ video: true, audio: true })
+    const screenStream = await navigator.mediaDevices.getDisplayMedia({ video: true })
     state.screen = screenStream
+    changeTracksHeight()
 
     if (state.webcam === null) {
         video.srcObject = screenStream
@@ -85,10 +87,11 @@ async function mergeStream() {
     merger.start()
 
     video.srcObject = merger.result;
+    state.stream = merger.result;
 }
 
 async function sendStream() {
-    console.log("sending stream")
+    const res = await fetch("http://localhost:8080/")
 
     const mediaRecorder = new MediaRecorder(state.screen, {
         audioBitsPerSecond: 128000,
@@ -101,3 +104,4 @@ async function sendStream() {
 
     mediaRecorder.start(25)
 }
+
