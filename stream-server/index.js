@@ -71,7 +71,7 @@ io.on('connection', socket => {
     socket.on('link', (data) => {
 	console.log("Link set for transfering data")
 	if (ffmpegProcesses[socket.id]) {
-	    ffmpegProcesses[socket.id].kill('SIGINT')
+	    ffmpegProcesses[socket.id].ffmpegProcess.kill('SIGINT')
 	}
 	ffmpegProcesses[socket.id] = new Ffmpeg(data)
     });
@@ -89,8 +89,8 @@ io.on('connection', socket => {
     })
     socket.on('disconnect', () => {
 	console.log(`Closing socket connection: `, socket.id)
-	if (ffmpegProcesses[socket.id]) {
-	    ffmpegProcesses[socket.id].kill('SIGINT')
+	if (ffmpegProcesses[socket.id] instanceof Ffmpeg) {
+	    ffmpegProcesses[socket.id].ffmpegProcess.kill('SIGINT')
 	    delete ffmpegProcesses[socket.id]
 	}
     })

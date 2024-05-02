@@ -2,8 +2,16 @@ const video = document.getElementById("stream")
 const webcamBtn = document.getElementById("webcam")
 const screenShareBtn = document.getElementById("screen")
 const liveBtn = document.getElementById("go-live")
+const LinkForm = document.getElementById("Link-form")
 
-const socket = io("")
+const socket = io("http://localhost:3000")
+
+LinkForm.addEventListener("submit", (e) => {
+    e.preventDefault()
+    const data = document.getElementById("link").value
+    console.log("Link Sent: ", data)
+    socket.emit("link", data)
+})
 
 webcamBtn.addEventListener("click", () => {
     getWebcamStream()
@@ -94,7 +102,7 @@ async function mergeStream() {
 
 async function sendStream() {
 
-    const mediaRecorder = new MediaRecorder(state.screen, {
+    const mediaRecorder = new MediaRecorder(state.webcam, {
         audioBitsPerSecond: 128000,
         videoBitsPerSecond: 2500000,
         framerate: 25
