@@ -3,6 +3,8 @@ const webcamBtn = document.getElementById("webcam")
 const screenShareBtn = document.getElementById("screen")
 const liveBtn = document.getElementById("go-live")
 
+const socket = io("")
+
 webcamBtn.addEventListener("click", () => {
     getWebcamStream()
 })
@@ -91,7 +93,6 @@ async function mergeStream() {
 }
 
 async function sendStream() {
-    const res = await fetch("http://localhost:8080/")
 
     const mediaRecorder = new MediaRecorder(state.screen, {
         audioBitsPerSecond: 128000,
