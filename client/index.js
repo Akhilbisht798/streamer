@@ -4,7 +4,11 @@ const screenShareBtn = document.getElementById("screen")
 const liveBtn = document.getElementById("go-live")
 const LinkForm = document.getElementById("Link-form")
 
-const socket = io("http://localhost:3000")
+const socket = io("http://localhost:3000", {
+    cookie: {
+        sameSite: 'None',
+    }
+})
 
 LinkForm.addEventListener("submit", (e) => {
     e.preventDefault()
