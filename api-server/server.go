@@ -1,7 +1,7 @@
 package main
 
 import (
-	"encoding/json"
+	// "encoding/json"
 	"fmt"
 	"io"
 	"log"
@@ -41,19 +41,20 @@ type RunTaskResponseData struct {
 
 func (s *Server) runStreamer(w http.ResponseWriter, r *http.Request) {
 	fmt.Println("starting aws container")
-	arn, publicIp := startTask()
-	resp := RunTaskResponseData{
-		ARN:    arn,
-		IP:     publicIp,
-		Status: "success",
-	}
-	jsonResp, err := json.Marshal(resp)
-	if err != nil {
-		http.Error(w, "Failed to create a json Response", http.StatusInternalServerError)
-		return
-	}
-	w.Header().Set("Content-Type", "application/json")
-	w.Write(jsonResp)
+	startTask()
+	// resp := RunTaskResponseData{
+	// 	ARN:    arn,
+	// 	IP:     publicIp,
+	// 	Status: "success",
+	// }
+	// jsonResp, err := json.Marshal(resp)
+	// if err != nil {
+	// 	http.Error(w, "Failed to create a json Response", http.StatusInternalServerError)
+	// 	return
+	// }
+	// w.Header().Set("Content-Type", "application/json")
+	// w.Write(jsonResp)
+	w.Write([]byte("hello world"))
 }
 
 func (s *Server) stopStreamer(w http.ResponseWriter, r *http.Request) {

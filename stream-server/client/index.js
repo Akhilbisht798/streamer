@@ -1,13 +1,20 @@
-const video = document.getElementById("stream")
-const webcamBtn = document.getElementById("webcam")
-const screenShareBtn = document.getElementById("screen")
-const liveBtn = document.getElementById("go-live")
-const LinkForm = document.getElementById("Link-form")
+const video = document.getElementById("stream");
+const webcamBtn = document.getElementById("webcam");
+const screenShareBtn = document.getElementById("screen");
+const liveBtn = document.getElementById("go-live");
+const LinkForm = document.getElementById("Link-form");
+const socketLink = document.getElementById("socketLinkBtn");
 
-const socket = io("http://localhost:3000", {
-    cookie: {
-        sameSite: 'None',
-    }
+let socket;
+
+socketLink.addEventListener("click", (e) => {
+    const socketLink = document.getElementById("socketLink").value;
+    console.log(socketLink)
+    socket = io(socketLink, {
+        cookie: {
+            sameSite: 'None',
+        }
+    })
 })
 
 LinkForm.addEventListener("submit", (e) => {

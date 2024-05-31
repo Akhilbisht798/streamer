@@ -4,11 +4,36 @@ import express from 'express'
 import { Server as SocketIO } from "socket.io";
 import cors from "cors";
 import dotenv from "dotenv";
+import path from 'path';
+import { dirname } from 'path'; 
+import { fileURLToPath } from 'url';
+import cookieParser from 'cookie-parser';
 
-dotenv.config()
+dotenv.config();
 
 const app = express();
 app.use(cors())
+app.use(cookieParser());
+
+app.use(function (req, res, next) {
+    let cookie = req.cookies.cookieName;
+    if (cookie === undefined) {
+	let randomNumber = Math.random().toString();
+	randomNumber = randomNumber.substring(2, randomNumber.length);
+	res.cookie('cookieName', randomNumber, { 
+	    maxAge: 900000, 
+	    secure: false, 
+	    httpOnly: true,
+	    sameSite: 'Lax',
+	    //partitioned: true,
+	});
+	console.log("cookie created successfully")
+    } else {
+	console.log("cookie exists", cookie);
+    }
+    next()
+})
+
 const server = http.createServer(app);
 const io = new SocketIO(server, {
     cors: {
@@ -19,7 +44,12 @@ const io = new SocketIO(server, {
 
 const ffmpegProcesses = {};
 
-app.get("/", (req, res) => {
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+let clientPath = path.join(__dirname, "client");
+app.use(express.static(clientPath));
+
+app.get("/hello", (req, res) => {
     res.json({message: "Hello world"})
 })
 
