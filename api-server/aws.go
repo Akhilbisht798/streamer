@@ -34,17 +34,17 @@ func GetEC2Client() *ec2.Client {
 func startTask() {
 	svc := GetECSClient()
 	ec2Svc := GetEC2Client()
-	cluster := aws.String("streamyard")
-	taskDef := aws.String("streamer")
+	cluster := aws.String("arn:aws:ecs:us-east-1:583896743802:cluster/streamyard")
+	taskDef := aws.String("arn:aws:ecs:us-east-1:583896743802:task-definition/streamer:3")
 	input := &ecs.RunTaskInput{
 		Cluster:        cluster,
 		TaskDefinition: taskDef,
 		LaunchType:     types.LaunchTypeFargate,
 		NetworkConfiguration: &types.NetworkConfiguration{
 			AwsvpcConfiguration: &types.AwsVpcConfiguration{
-				Subnets:        []string{"your-subnet-id"},
+				Subnets:        []string{"subnet-0b11c7aaeabe1567d", "subnet-0e0cbb85a73e09c60", "subnet-0dbc888696569836e"},
 				AssignPublicIp: types.AssignPublicIpEnabled,
-				SecurityGroups: []string{"your-security-group-id"},
+				SecurityGroups: []string{"sg-0bb965fe83ec1591b"},
 			},
 		},
 	}
