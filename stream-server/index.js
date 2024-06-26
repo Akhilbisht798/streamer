@@ -49,8 +49,12 @@ const __dirname = dirname(__filename);
 let clientPath = path.join(__dirname, "client");
 app.use(express.static(clientPath));
 
-app.get("/hello", (req, res) => {
-    res.json({message: "Hello world"})
+app.get("/health", (req, res) => {
+    res.status(200).json({
+	status: "healthy",
+	uptime: process.uptime(),
+	message: "Application is running smoothly."
+    })
 })
 
 app.post("/rtmpLink", (req, res) => {
